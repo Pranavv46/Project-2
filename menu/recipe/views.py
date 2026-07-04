@@ -18,3 +18,16 @@ def recipe_detail(request, recipe_id):
     return render(request, 'recipe_detail.html', {
         'recipe': recipe
     }) 
+
+def add_recipe(request):
+
+    if request.method == 'POST':
+        title = request.POST['title']
+        ingredients = request.POST['ingredients']
+        instructions = request.POST['instructions']
+
+        print("Title:", title)
+        print("Ingredients:", ingredients)
+        print("Instructions:", instructions)
+
+    return render(request, 'addrecipe.html')
