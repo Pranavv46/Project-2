@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import Recipe
 
 # Create your views here.
 def home(request):
@@ -29,5 +30,12 @@ def add_recipe(request):
         print("Title:", title)
         print("Ingredients:", ingredients)
         print("Instructions:", instructions)
+
+        Recipe.objects.create(
+            title=title,
+            ingredients=ingredients,
+            instructions=instructions
+)
+        return redirect('recipe_list')
 
     return render(request, 'addrecipe.html')
