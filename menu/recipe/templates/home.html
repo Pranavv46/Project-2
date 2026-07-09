@@ -1,11 +1,35 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Recipe App</title>
-</head>
-<body>
-    <h1>Welcome to Recipe App</h1>
-    <h2>Hello, {{ name }}!</h2>
-    <p>This is my first Django template.</p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+
+<div class="text-center py-5">
+
+    <h1 class="display-4">🍽️ Welcome to Recipe Book</h1>
+
+    <p class="lead mt-3">
+        Hello, <strong>{{ name }}</strong>!
+    </p>
+
+    <p class="text-muted">
+        Discover, create, edit and manage your favorite recipes with ease.
+    </p>
+
+    <div class="mt-4">
+
+        <a href="{% url 'recipe_list' %}" class="btn btn-primary btn-lg me-3">
+            View Recipes
+        </a>
+
+        <a href="{% url 'add_recipe' %}" class="btn btn-success btn-lg">
+            Add Recipe
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

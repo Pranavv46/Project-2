@@ -1,14 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Recipes</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Recipe List</h1>
+{% block title %}
+Recipe List
+{% endblock %}
 
-    {% for recipe in recipes %}
-        <h2>{{ recipe.title }}</h2>
+{% block content %}
+
+<h1 class="mb-4">Recipe List</h1>
+
+{% for recipe in recipes %}
+
+<div class="card mb-3">
+    <div class="card-body">
+
+        <h3 class="card-title">{{ recipe.title }}</h3>
 
         <p><strong>Ingredients:</strong></p>
         <p>{{ recipe.ingredients }}</p>
@@ -16,12 +21,22 @@
         <p><strong>Instructions:</strong></p>
         <p>{{ recipe.instructions }}</p>
 
-        <a href="{% url 'recipe_detail' recipe.id %}">View</a> |
-        <a href="{% url 'edit_recipe' recipe.id %}">Edit</a> |
-        <a href="{% url 'delete_recipe' recipe.id %}">Delete</a>
+        <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary btn-sm">
+            View
+        </a>
 
-        <hr>
-    {% endfor %}
+        <a href="{% url 'edit_recipe' recipe.id %}" class="btn btn-warning btn-sm">
+            Edit
+        </a>
 
-</body>
-</html>
+        <a href="{% url 'delete_recipe' recipe.id %}"
+           class="btn btn-danger btn-sm">
+            Delete
+        </a>
+
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}

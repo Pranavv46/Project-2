@@ -1,28 +1,65 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Recipe</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Edit Recipe</h1>
+{% block title %}
+Edit Recipe
+{% endblock %}
 
-    <form method="POST">
+{% block content %}
 
-        {% csrf_token %}
+<div class="row justify-content-center">
 
-        <label>Title</label><br>
-        <input type="text" name="title" value="{{ recipe.title }}"><br><br>
+    <div class="col-md-8">
 
-        <label>Ingredients</label><br>
-        <textarea name="ingredients">{{ recipe.ingredients }}</textarea><br><br>
+        <div class="card shadow">
 
-        <label>Instructions</label><br>
-        <textarea name="instructions">{{ recipe.instructions }}</textarea><br><br>
+            <div class="card-header bg-warning">
+                <h3>Edit Recipe</h3>
+            </div>
 
-        <button type="submit">Update Recipe</button>
+            <div class="card-body">
 
-    </form>
+                <form method="POST">
 
-</body>
-</html>
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text"
+                               name="title"
+                               class="form-control"
+                               value="{{ recipe.title }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Ingredients</label>
+                        <textarea name="ingredients"
+                                  class="form-control"
+                                  rows="4">{{ recipe.ingredients }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Instructions</label>
+                        <textarea name="instructions"
+                                  class="form-control"
+                                  rows="6">{{ recipe.instructions }}</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning">
+                        Update Recipe
+                    </button>
+
+                    <a href="{% url 'recipe_list' %}" class="btn btn-secondary">
+                        Cancel
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

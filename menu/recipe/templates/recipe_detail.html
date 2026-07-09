@@ -1,17 +1,51 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ recipe.title }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>{{ recipe.title }}</h1>
+{% block title %}
+{{ recipe.title }}
+{% endblock %}
 
-    <h3>Ingredients</h3>
-    <p>{{ recipe.ingredients }}</p>
+{% block content %}
 
-    <h3>Instructions</h3>
-    <p>{{ recipe.instructions }}</p>
+<div class="row justify-content-center">
 
-</body>
-</html>
+    <div class="col-md-8">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-success text-white">
+                <h2>{{ recipe.title }}</h2>
+            </div>
+
+            <div class="card-body">
+
+                <h5>Ingredients</h5>
+                <p>{{ recipe.ingredients }}</p>
+
+                <hr>
+
+                <h5>Instructions</h5>
+                <p>{{ recipe.instructions }}</p>
+
+                <a href="{% url 'edit_recipe' recipe.id %}" class="btn btn-warning">
+                    Edit
+                </a>
+
+                <a href="{% url 'delete_recipe' recipe.id %}"
+                   class="btn btn-danger">
+                    Delete
+                </a>
+
+                <a href="{% url 'recipe_list' %}"
+                   class="btn btn-secondary">
+                    Back
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,28 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Recipe</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Add Recipe</h1>
+{% block title %}
+Add Recipe
+{% endblock %}
 
-    <form method="POST">
+{% block content %}
 
-        {% csrf_token %}
+<div class="row justify-content-center">
 
-        <label>Title</label><br>
-        <input type="text" name="title"><br><br>
+    <div class="col-md-8">
 
-        <label>Ingredients</label><br>
-        <textarea name="ingredients"></textarea><br><br>
+        <div class="card shadow">
 
-        <label>Instructions</label><br>
-        <textarea name="instructions"></textarea><br><br>
+            <div class="card-header bg-primary text-white">
+                <h3>Add New Recipe</h3>
+            </div>
 
-        <button type="submit">Save Recipe</button>
+            <div class="card-body">
 
-    </form>
+                <form method="POST">
 
-</body>
-</html>
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" name="title" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Ingredients</label>
+                        <textarea name="ingredients" class="form-control" rows="4"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Instructions</label>
+                        <textarea name="instructions" class="form-control" rows="6"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">
+                        Add Recipe
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
