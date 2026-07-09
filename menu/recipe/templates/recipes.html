@@ -16,6 +16,10 @@
         <p><strong>Instructions:</strong></p>
         <p>{{ recipe.instructions }}</p>
 
+        <a href="{% url 'recipe_detail' recipe.id %}">View</a> |
+        <a href="{% url 'edit_recipe' recipe.id %}">Edit</a> |
+        <a href="{% url 'delete_recipe' recipe.id %}">Delete</a>
+
         <hr>
     {% endfor %}
 

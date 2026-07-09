@@ -39,3 +39,31 @@ def add_recipe(request):
         return redirect('recipe_list')
 
     return render(request, 'addrecipe.html')
+
+def edit_recipe(request, recipe_id):
+
+    recipe = Recipe.objects.get(id=recipe_id)
+
+    if request.method == 'POST':
+        title = request.POST['title']
+        ingredients = request.POST['ingredients']
+        instructions = request.POST['instructions']
+
+        recipe.title = title
+        recipe.ingredients = ingredients
+        recipe.instructions = instructions
+
+        recipe.save()
+        return redirect('recipe_list')
+
+    return render(request, 'editrecipe.html', {
+        'recipe': recipe
+    })
+
+def delete_recipe(request, recipe_id):
+
+    recipe = Recipe.objects.get(id=recipe_id)
+
+    recipe.delete()
+
+    return redirect('recipe_list')
