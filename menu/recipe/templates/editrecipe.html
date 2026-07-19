@@ -18,7 +18,7 @@ Edit Recipe
 
             <div class="card-body">
 
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
 
                     {% csrf_token %}
 
@@ -42,6 +42,24 @@ Edit Recipe
                         <textarea name="instructions"
                                   class="form-control"
                                   rows="6">{{ recipe.instructions }}</textarea>
+                    </div>
+
+                    {% if recipe.image %}
+                    <div class="mb-3">
+                        <label class="form-label">Current Image</label><br>
+
+                        <img src="{{ recipe.image.url }}"
+                             alt="{{ recipe.title }}"
+                             class="img-thumbnail"
+                             style="max-width:250px;">
+                    </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Change Image</label>
+                        <input type="file"
+                               name="image"
+                               class="form-control">
                     </div>
 
                     <button type="submit" class="btn btn-warning">

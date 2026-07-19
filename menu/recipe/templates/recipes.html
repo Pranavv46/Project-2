@@ -7,36 +7,71 @@ Recipe List
 {% block content %}
 
 <h1 class="mb-4">Recipe List</h1>
+<form method="GET" class="mb-4">
 
-{% for recipe in recipes %}
+    <div class="input-group">
 
-<div class="card mb-3">
-    <div class="card-body">
+        <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Search recipes by title..."
+        >
 
-        <h3 class="card-title">{{ recipe.title }}</h3>
-
-        <p><strong>Ingredients:</strong></p>
-        <p>{{ recipe.ingredients }}</p>
-
-        <p><strong>Instructions:</strong></p>
-        <p>{{ recipe.instructions }}</p>
-
-        <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary btn-sm">
-            View
-        </a>
-
-        <a href="{% url 'edit_recipe' recipe.id %}" class="btn btn-warning btn-sm">
-            Edit
-        </a>
-
-        <a href="{% url 'delete_recipe' recipe.id %}"
-           class="btn btn-danger btn-sm">
-            Delete
-        </a>
+        <button type="submit" class="btn btn-primary">
+            🔍 Search
+        </button>
 
     </div>
-</div>
 
-{% endfor %}
+</form>
+
+{% if recipes %}
+
+    {% for recipe in recipes %}
+
+    <div class="card mb-3">
+        <div class="card-body">
+
+             {% if recipe.image %}
+                  <img src="{{ recipe.image.url }}"
+                       class="card-img-top"
+                       style="height:250px; object-fit:cover;"
+                       alt="{{ recipe.title }}">
+            {% endif %}
+            
+            <h3 class="card-title">{{ recipe.title }}</h3>
+
+            <p><strong>Ingredients:</strong></p>
+            <p>{{ recipe.ingredients }}</p>
+
+            <p><strong>Instructions:</strong></p>
+            <p>{{ recipe.instructions }}</p>
+
+            <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary btn-sm">
+                View
+            </a>
+
+            <a href="{% url 'edit_recipe' recipe.id %}" class="btn btn-warning btn-sm">
+                Edit
+            </a>
+
+            <a href="{% url 'delete_recipe' recipe.id %}" class="btn btn-danger btn-sm">
+                Delete
+            </a>
+
+        </div>
+    </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <div class="alert alert-warning text-center">
+        <h4>No recipes found.</h4>
+        <p>Try searching with a different recipe title.</p>
+    </div>
+
+{% endif %}
 
 {% endblock %}
