@@ -1,0 +1,9 @@
+.home-background {
+    background-image: url("../images/Blog.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 80vh;
+    padding: 60px;
+    border-radius: 20px;
+}

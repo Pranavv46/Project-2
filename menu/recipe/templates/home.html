@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 Home
@@ -6,15 +7,28 @@ Home
 
 {% block content %}
 
-<div class="text-center py-5">
+<div class="text-center text-white py-5"
+     style="
+     background-image: url('/static/images/Blog.jpg');
+     background-size: cover;
+     background-position: center;
+     min-height: 80vh;
+     border-radius: 20px;
+     padding: 60px;
+     ">
 
-    <h1 class="display-4">🍽️ Welcome to Recipe Book</h1>
+<h1 class="display-4" style="font-weight: bold;">
+    🍽️ <span style="color: black; text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff;">Welcome to Recipe Book</span>
+</h1>
+
+
+
 
     <p class="lead mt-3">
         Hello, <strong>{{ name }}</strong>!
     </p>
 
-    <p class="text-muted">
+    <p>
         Discover, create, edit and manage your favorite recipes with ease.
     </p>
 
