@@ -23,25 +23,39 @@
 
 <body class="d-flex flex-column min-vh-100">
 
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
-        <div class="container">
+        <div class="ms-auto">
 
-            <a class="navbar-brand fw-bold" href="{% url 'home' %}">
-                🍽️ Recipe Book
-            </a>
+    <a href="{% url 'recipe_list' %}" class="btn btn-outline-light me-2">
+        📖 Recipes
+    </a>
 
-            <div>
+    {% if user.is_authenticated %}
 
-                <a href="{% url 'recipe_list' %}" class="btn btn-outline-light me-2">
-                    📖 Recipes
-                </a>
+        <a href="{% url 'add_recipe' %}" class="btn btn-warning me-2">
+            ➕ Add Recipe
+        </a>
 
-                <a href="{% url 'add_recipe' %}" class="btn btn-warning">
-                    ➕ Add Recipe
-                </a>
+        <a href="{% url 'logout' %}" class="btn btn-danger">
+            🚪 Logout
+        </a>
 
-            </div>
+    {% else %}
+
+        <a href="{% url 'login' %}" class="btn btn-success me-2">
+            🔑 Login
+        </a>
+
+        <a href="{% url 'register' %}" class="btn btn-warning">
+            📝 Register
+        </a>
+
+    {% endif %}
+
+</div>
+
 
         </div>
     </nav>
