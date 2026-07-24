@@ -18,25 +18,46 @@ Add Recipe
 
             <div class="card-body">
 
-                <form method="POST"  enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data">
 
                     {% csrf_token %}
 
+                    <!-- Category -->
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+
+                        <select name="category" class="form-select">
+
+                            <option value="Indian">Indian</option>
+                            <option value="Italian">Italian</option>
+                            <option value="Fast Food">Fast Food</option>
+                            <option value="Dessert">Dessert</option>
+                            <option value="Salad">Salad</option>
+                            <option value="Mandi">Mandi</option>
+                            <option value="Drinks">Drinks</option>
+
+                        </select>
+                    </div>
+
+                    <!-- Title -->
                     <div class="mb-3">
                         <label class="form-label">Title</label>
                         <input type="text" name="title" class="form-control">
                     </div>
 
+                    <!-- Ingredients -->
                     <div class="mb-3">
                         <label class="form-label">Ingredients</label>
                         <textarea name="ingredients" class="form-control" rows="4"></textarea>
                     </div>
 
+                    <!-- Instructions -->
                     <div class="mb-3">
                         <label class="form-label">Instructions</label>
                         <textarea name="instructions" class="form-control" rows="6"></textarea>
                     </div>
 
+                    <!-- Recipe Image -->
                     <div class="mb-3">
                         <label class="form-label">Recipe Image</label>
                         <input type="file" name="image" class="form-control">

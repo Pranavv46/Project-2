@@ -7,20 +7,68 @@ Recipe List
 {% block content %}
 
 <h1 class="mb-4">Recipe List</h1>
+
 <form method="GET" class="mb-4">
 
-    <div class="input-group">
+    <div class="row g-2">
 
-        <input
-            type="text"
-            name="search"
-            class="form-control"
-            placeholder="Search recipes by title..."
-        >
+        <div class="col-md-5">
+            <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Search recipes..."
+                value="{{ request.GET.search }}">
+        </div>
 
-        <button type="submit" class="btn btn-primary">
-            🔍 Search
-        </button>
+        <div class="col-md-4">
+            <select name="category" class="form-select">
+
+                <option value="">All Categories</option>
+
+                <option value="Indian"
+                    {% if selected_category == "Indian" %}selected{% endif %}>
+                    Indian
+                </option>
+
+                <option value="Italian"
+                    {% if selected_category == "Italian" %}selected{% endif %}>
+                    Italian
+                </option>
+
+                <option value="Fast Food"
+                    {% if selected_category == "Fast Food" %}selected{% endif %}>
+                    Fast Food
+                </option>
+
+                <option value="Dessert"
+                    {% if selected_category == "Dessert" %}selected{% endif %}>
+                    Dessert
+                </option>
+
+                <option value="Salad"
+                    {% if selected_category == "Salad" %}selected{% endif %}>
+                    Salad
+                </option>
+
+                <option value="Mandi"
+                    {% if selected_category == "Mandi" %}selected{% endif %}>
+                    Mandi
+                </option>
+
+                <option value="Drinks"
+                    {% if selected_category == "Drinks" %}selected{% endif %}>
+                    Drinks
+                </option>
+
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">
+                🔍 Search
+            </button>
+        </div>
 
     </div>
 
@@ -31,16 +79,23 @@ Recipe List
     {% for recipe in recipes %}
 
     <div class="card mb-3">
+
         <div class="card-body">
 
-             {% if recipe.image %}
-                  <img src="{{ recipe.image.url }}"
-                       class="card-img-top"
-                       style="height:250px; object-fit:cover;"
-                       alt="{{ recipe.title }}">
+            {% if recipe.image %}
+                <img src="{{ recipe.image.url }}"
+                     class="card-img-top"
+                     style="height:250px; object-fit:cover;"
+                     alt="{{ recipe.title }}">
             {% endif %}
-            
-            <h3 class="card-title">{{ recipe.title }}</h3>
+
+            <span class="badge bg-primary mt-3">
+                {{ recipe.category }}
+            </span>
+
+            <h3 class="card-title mt-2">
+                {{ recipe.title }}
+            </h3>
 
             <p><strong>Ingredients:</strong></p>
             <p>{{ recipe.ingredients }}</p>
@@ -49,27 +104,85 @@ Recipe List
             <p>{{ recipe.instructions }}</p>
 
             <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary btn-sm">
-                View
-            </a>
+    View
+</a>
 
-            <a href="{% url 'edit_recipe' recipe.id %}" class="btn btn-warning btn-sm">
-                Edit
-            </a>
+{% if recipe.owner == request.user %}
 
-            <a href="{% url 'delete_recipe' recipe.id %}" class="btn btn-danger btn-sm">
-                Delete
-            </a>
+    <a href="{% url 'edit_recipe' recipe.id %}" class="btn btn-warning btn-sm">
+        Edit
+    </a>
+
+    <a href="{% url 'delete_recipe' recipe.id %}" class="btn btn-danger btn-sm">
+        Delete
+    </a>
+
+{% endif %}
 
         </div>
+
     </div>
 
     {% endfor %}
+
+    <!-- Pagination -->
+
+    <nav class="mt-4">
+
+        <ul class="pagination justify-content-center">
+
+            {% if recipes.has_previous %}
+
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?page={{ recipes.previous_page_number }}&search={{ request.GET.search }}&category={{ selected_category }}">
+                        Previous
+                    </a>
+                </li>
+
+            {% endif %}
+
+            {% for num in recipes.paginator.page_range %}
+
+                {% if recipes.number == num %}
+
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+
+                {% else %}
+
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?page={{ num }}&search={{ request.GET.search }}&category={{ selected_category }}">
+                            {{ num }}
+                        </a>
+                    </li>
+
+                {% endif %}
+
+            {% endfor %}
+
+            {% if recipes.has_next %}
+
+                <li class="page-item">
+                    <a class="page-link"
+                       href="?page={{ recipes.next_page_number }}&search={{ request.GET.search }}&category={{ selected_category }}">
+                        Next
+                    </a>
+                </li>
+
+            {% endif %}
+
+        </ul>
+
+    </nav>
 
 {% else %}
 
     <div class="alert alert-warning text-center">
         <h4>No recipes found.</h4>
-        <p>Try searching with a different recipe title.</p>
+        <p>Try a different search or category.</p>
     </div>
 
 {% endif %}

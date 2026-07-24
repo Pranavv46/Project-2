@@ -22,6 +22,30 @@ Edit Recipe
 
                     {% csrf_token %}
 
+                    <!-- Category -->
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+
+                        <select name="category" class="form-select">
+
+                            <option value="Indian" {% if recipe.category == "Indian" %}selected{% endif %}>Indian</option>
+
+                            <option value="Italian" {% if recipe.category == "Italian" %}selected{% endif %}>Italian</option>
+
+                            <option value="Fast Food" {% if recipe.category == "Fast Food" %}selected{% endif %}>Fast Food</option>
+
+                            <option value="Dessert" {% if recipe.category == "Dessert" %}selected{% endif %}>Dessert</option>
+
+                            <option value="Salad" {% if recipe.category == "Salad" %}selected{% endif %}>Salad</option>
+
+                            <option value="Mandi" {% if recipe.category == "Mandi" %}selected{% endif %}>Mandi</option>
+
+                            <option value="Drinks" {% if recipe.category == "Drinks" %}selected{% endif %}>Drinks</option>
+
+                        </select>
+                    </div>
+
+                    <!-- Title -->
                     <div class="mb-3">
                         <label class="form-label">Title</label>
                         <input type="text"
@@ -30,6 +54,7 @@ Edit Recipe
                                value="{{ recipe.title }}">
                     </div>
 
+                    <!-- Ingredients -->
                     <div class="mb-3">
                         <label class="form-label">Ingredients</label>
                         <textarea name="ingredients"
@@ -37,6 +62,7 @@ Edit Recipe
                                   rows="4">{{ recipe.ingredients }}</textarea>
                     </div>
 
+                    <!-- Instructions -->
                     <div class="mb-3">
                         <label class="form-label">Instructions</label>
                         <textarea name="instructions"

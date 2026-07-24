@@ -1,6 +1,10 @@
+from urllib import request
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Recipe
+
+from django.core.paginator import Paginator #pagination
 
 #user authentication 
 from django.contrib.auth.models import User
@@ -81,16 +85,35 @@ def logout_user(request):
 
     return redirect('login')
 
-
 # Recipe List
 def recipe_list(request):
 
     search = request.GET.get('search')
+    category = request.GET.get('category')
+
+    recipes = Recipe.objects.all()
 
     if search:
-        recipes = Recipe.objects.filter(title__icontains=search)
-    else:
-        recipes = Recipe.objects.all()
+        recipes = recipes.filter(title__icontains=search)
+
+    if category and category != "None":
+        recipes = recipes.filter(category=category)
+
+    paginator = Paginator(recipes, 6)
+
+    page_number = request.GET.get('page')
+
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'recipes.html', {
+        'recipes': page_obj,
+        'selected_category': category,
+    })
+# My Recipe
+@login_required
+def my_recipes(request):
+
+    recipes = Recipe.objects.filter(owner=request.user)
 
     return render(request, 'recipes.html', {
         'recipes': recipes
@@ -114,6 +137,9 @@ def add_recipe(request):
         title = request.POST['title']
         ingredients = request.POST['ingredients']
         instructions = request.POST['instructions']
+
+        category = request.POST['category']
+
         image = request.FILES.get('image')
 
         # Debug prints
@@ -124,9 +150,14 @@ def add_recipe(request):
         print("Instructions:", instructions)
 
         Recipe.objects.create(
+
+            owner=request.user,  #When a user logs in: Django stores that user in the request.
+                                  #What is request.user? A good answer is: request.user returns the currently authenticated (logged-in) user. It allows us to access information about the user making the current request.
+
             title=title,
             ingredients=ingredients,
             instructions=instructions,
+            category=category,
             image=image
         )
         messages.success(request, "Recipe added successfully!")
@@ -139,19 +170,30 @@ def add_recipe(request):
 @login_required
 def edit_recipe(request, recipe_id):
 
-    recipe = Recipe.objects.get(id=recipe_id)
+    recipe = Recipe.objects.filter(
+        id=recipe_id,
+        owner=request.user
+    ).first()
+
+    if recipe is None:
+        messages.error(request, "You are not allowed to edit this recipe.")
+        return redirect('recipe_list')
 
     if request.method == 'POST':
+
+        category = request.POST['category']
 
         recipe.title = request.POST['title']
         recipe.ingredients = request.POST['ingredients']
         recipe.instructions = request.POST['instructions']
+        recipe.category = category
 
         # If a new image is uploaded, replace the old one
         if request.FILES.get('image'):
             recipe.image = request.FILES['image']
 
         recipe.save()
+
         messages.success(request, "Recipe updated successfully!")
 
         return redirect('recipe_list')
@@ -165,7 +207,14 @@ def edit_recipe(request, recipe_id):
 @login_required
 def delete_recipe(request, recipe_id):
 
-    recipe = Recipe.objects.get(id=recipe_id)
+    recipe = Recipe.objects.filter(
+        id=recipe_id,
+        owner=request.user
+    ).first()
+
+    if recipe is None:
+        messages.error(request, "You are not allowed to delete this recipe.")
+        return redirect('recipe_list')
 
     if request.method == 'POST':
         recipe.delete()
